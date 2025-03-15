@@ -102,6 +102,7 @@ export default function BlogContentRenderer({ content }: BlogContentRendererProp
           </motion.blockquote>
         )
 
+
       case "video":
         return (
           <motion.div

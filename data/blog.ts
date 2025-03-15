@@ -11,7 +11,7 @@ export interface BlogPost {
     featured: boolean;
     excerpt: string;
     content: Array<{
-      type: 'paragraph' | 'heading' | 'subheading' | 'image' | 'code' | 'quote' | 'video';
+      type: 'paragraph' | 'heading' | 'subheading' | 'image' | 'code' | 'quote' | 'video' | 'bulletlist';
       content: string;
       language?: string;
       caption?: string;
@@ -749,6 +749,177 @@ export interface BlogPost {
         {
           "type": "paragraph",
           "content": "Happy coding! 💻✨"
+        }
+      ]
+    },
+
+    {
+      "id": "5",
+      "title": "Networking Using Docker 🐳🌐",
+      "subtitle": "Master container communication with Docker's powerful networking capabilities",
+      "author": "Tanishq Macbook",
+      "date": "March 24, 2025",
+      "readTime": "15 min read",
+      "coverImage": "/imgs/blog/Docker_Networking.png",
+      "tags": ["Docker", "Networking", "DevOps", "Containers", "Microservices"],
+      "featured": true,
+      "excerpt": "Learn how to configure and manage Docker networks for seamless container communication in distributed applications.",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": "Docker Networking is a powerful feature that enables communication between containers, making it essential for building distributed applications. This guide covers network drivers, essential commands, and practical examples to help you master container networking."
+        },
+        {
+          "type": "heading",
+          "content": "Docker Network Drivers 🚦"
+        },
+        {
+          "type": "paragraph",
+          "content": "Docker supports several network drivers for different use cases:"
+        },
+        {
+          "type": "paragraph",
+          "content": "Docker offers multiple network drivers including: the Bridge driver for isolated container networks, Host driver that removes network isolation, None driver which disables networking, Overlay for connecting Docker daemons in Swarm, IPvlan for IP address control, and Macvlan for assigning MAC addresses to containers."
+        },
+        {
+          "type": "heading",
+          "content": "Prerequisites 📋"
+        },
+        {
+          "type": "paragraph",
+          "content": "Before starting, verify Docker is installed:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker --version"
+        },
+        {
+          "type": "paragraph",
+          "content": "Expected output:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "Docker version 20.10.17, build 100c701"
+        },
+        {
+          "type": "heading",
+          "content": "Essential Network Commands 🛠️"
+        },
+        {
+          "type": "subheading",
+          "content": "1. List Existing Networks"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker network ls"
+        },
+        {
+          "type": "subheading",
+          "content": "2. Create a Custom Bridge Network"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker network create --driver bridge --subnet 172.20.0.0/16 --ip-range 172.20.240.0/20 net-bridge"
+        },
+        {
+          "type": "subheading",
+          "content": "3. Connect Containers to Network"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker network connect <network-name> <container-name>"
+        },
+        {
+          "type": "subheading",
+          "content": "4. Inspect Network Details"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker network inspect <network-name>"
+        },
+        {
+          "type": "heading",
+          "content": "Practical Networking Example 🖧"
+        },
+        {
+          "type": "subheading",
+          "content": "Step 1: Launch Containers"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker run -itd --net=net-bridge --name=server-A busybox\ndocker run -itd --net=net-bridge --name=server-B busybox"
+        },
+        {
+          "type": "subheading",
+          "content": "Step 2: Get Container IPs"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' server-A"
+        },
+        {
+          "type": "subheading",
+          "content": "Step 3: Test Connectivity"
+        },
+        {
+          "type": "paragraph",
+          "content": "First, install ping utility:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker exec server-A apk add --no-cache iputils-ping"
+        },
+        {
+          "type": "paragraph",
+          "content": "Then test connection:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker exec -it server-A ping <server-B-ip>"
+        },
+        {
+          "type": "heading",
+          "content": "Advanced Network Operations"
+        },
+        {
+          "type": "subheading",
+          "content": "View Network Containers (JSON)"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker inspect --format='{{json .Containers}}' net-bridge | python -m json.tool"
+        },
+        {
+          "type": "subheading",
+          "content": "Inspect Container Network Settings"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker inspect --format='{{json .NetworkSettings}}' server-B | python -m json.tool"
+        },
+        {
+          "type": "heading",
+          "content": "Conclusion 🎉"
+        },
+        {
+          "type": "paragraph",
+          "content": "You've now mastered Docker networking fundamentals! These skills enable you to build complex distributed systems with proper container communication. Docker's networking capabilities are powerful tools for microservices architectures and cloud-native applications."
+        },
+        {
+          "type": "paragraph",
+          "content": "Happy networking! 💻✨"
         }
       ]
     }
