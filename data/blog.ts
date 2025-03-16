@@ -25,7 +25,7 @@ export interface BlogPost {
       "title": "Docker Basics: Hello World Project 🐳🐍",
       "subtitle": "A beginner's guide to containerizing your first Python application",
       "author": "Vansh Raj Chauhan",
-      "date": "June 10, 2023",
+      "date": "March 24 , 2025",
       "readTime": "7 min read",
       "coverImage": "/imgs/blog/Docker_Hello_World.jpeg",
       "tags": ["Docker", "Python", "Containers", "DevOps"],
@@ -241,7 +241,7 @@ export interface BlogPost {
       "title": "Deploying a Streamlit App Using Docker 🐳📊",
       "subtitle": "A step-by-step guide to containerizing and deploying interactive Streamlit applications",
       "author": "Vansh Raj Chauhan",
-      "date": "June 15, 2023",
+      "date": "March 24, 2025",
       "readTime": "10 min read",
       "coverImage": "/imgs/blog/Streamlit_Docker.jpeg",
       "tags": ["Docker", "Streamlit", "Python", "Data Visualization", "DevOps"],
@@ -579,6 +579,172 @@ export interface BlogPost {
         {
           "type": "paragraph",
           "content": "Congratulations! You've successfully deployed a Machine Learning model using Docker. This setup ensures your ML model is portable, scalable, and system-independent. Docker and Streamlit together provide a powerful combination for building and deploying AI applications."
+        },
+        {
+          "type": "paragraph",
+          "content": "Happy coding! 💻✨"
+        }
+      ]
+    },
+
+
+    {
+      "id": "4",
+      "title": "Running MySQL Using Docker 🐳📊",
+      "subtitle": "A complete guide to containerizing and deploying MySQL databases with Docker",
+      "author": "Vansh Raj Chauhan",
+      "date": "March 24, 2025",
+      "readTime": "10 min read",
+      "coverImage": "/imgs/blog/MySQl_Docker.jpg",
+      "tags": ["Docker", "MySQL", "Database", "DevOps", "Backend"],
+      "featured": true,
+      "excerpt": "Learn how to containerize and deploy MySQL databases using Docker for portable, scalable database solutions.",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": "In this project, we'll deploy a MySQL database using Docker, a powerful platform for containerizing applications. Docker ensures that your database is portable, scalable, and independent of the underlying system. This guide will walk you through setting up a MySQL database inside a Docker container and initializing it with sample data."
+        },
+        {
+          "type": "heading",
+          "content": "Prerequisites 📋"
+        },
+        {
+          "type": "paragraph",
+          "content": "Before we begin, ensure you have the following installed:\n\n- Docker: Platform for containerized applications\n- Docker Desktop: For managing containers locally"
+        },
+        {
+          "type": "heading",
+          "content": "Project Structure 🗂️"
+        },
+        {
+          "type": "paragraph",
+          "content": "The project consists of these files:\n\n- database_students.sql: SQL script to create and initialize the database\n- Dockerfile: Instructions for Docker to build the MySQL image"
+        },
+        {
+          "type": "heading",
+          "content": "Step 1: Create the SQL Script 📄"
+        },
+        {
+          "type": "paragraph",
+          "content": "The database_students.sql file contains:"
+        },
+        {
+          "type": "code",
+          "language": "sql",
+          "content": "CREATE DATABASE student;\nUSE student;\n\nCREATE TABLE students (\n    StudentID INT NOT NULL AUTO_INCREMENT,\n    FirstName VARCHAR(100) NOT NULL,\n    Surname VARCHAR(100) NOT NULL,\n    PRIMARY KEY (StudentID)\n);\n\nINSERT INTO students (FirstName, Surname)\nVALUES (\"John\", \"Andersen\"), (\"Emma\", \"Smith\");"
+        },
+        {
+          "type": "paragraph",
+          "content": "This script creates a student database with a students table and inserts sample records."
+        },
+        {
+          "type": "heading",
+          "content": "Step 2: Create the Dockerfile 📄"
+        },
+        {
+          "type": "paragraph",
+          "content": "Here's our Dockerfile for MySQL:"
+        },
+        {
+          "type": "code",
+          "language": "dockerfile",
+          "content": "# Use the official MySQL image\nFROM mysql:latest\n\n# Set the root password for MySQL\nENV MYSQL_ROOT_PASSWORD=root\n\n# Copy the SQL initialization script\nCOPY ./database_students.sql /docker-entrypoint-initdb.d/"
+        },
+        {
+          "type": "heading",
+          "content": "Step 3: Build the Docker Image 🏗️"
+        },
+        {
+          "type": "paragraph",
+          "content": "Build the image with:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker build -t mysql_db ."
+        },
+        {
+          "type": "heading",
+          "content": "Step 4: Verify the Docker Image 🖼️"
+        },
+        {
+          "type": "paragraph",
+          "content": "Check the created image:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker images"
+        },
+        {
+          "type": "paragraph",
+          "content": "Expected output:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "REPOSITORY   TAG       IMAGE ID       CREATED          SIZE\nmysql_db     latest    abc123def456   10 seconds ago   500MB"
+        },
+        {
+          "type": "heading",
+          "content": "Step 5: Run the Docker Container 🚀"
+        },
+        {
+          "type": "paragraph",
+          "content": "Start the MySQL container:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker run -d --name mysql_container mysql_db"
+        },
+        {
+          "type": "heading",
+          "content": "Step 6: Access and Query the Database 🔍"
+        },
+        {
+          "type": "subheading",
+          "content": "Access the container shell"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker exec -it mysql_container /bin/bash"
+        },
+        {
+          "type": "subheading",
+          "content": "Connect to MySQL"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "mysql -u root -p"
+        },
+        {
+          "type": "subheading",
+          "content": "Query the database"
+        },
+        {
+          "type": "code",
+          "language": "sql",
+          "content": "USE student;\nSELECT * FROM students;"
+        },
+        {
+          "type": "paragraph",
+          "content": "Expected output:"
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "content": "+-----------+-----------+----------+\n| StudentID | FirstName | Surname  |\n+-----------+-----------+----------+\n|         1 | John      | Andersen |\n|         2 | Emma      | Smith    |\n+-----------+-----------+----------+"
+        },
+        {
+          "type": "heading",
+          "content": "Conclusion 🎉"
+        },
+        {
+          "type": "paragraph",
+          "content": "Congratulations! You've successfully deployed a MySQL database using Docker. This containerized solution provides a portable, scalable database environment perfect for development, testing, and production use."
         },
         {
           "type": "paragraph",
