@@ -416,8 +416,176 @@ export interface BlogPost {
           "content": "Happy coding! 💻✨"
         }
       ]
-    }
+    },
 
+
+    {
+      "id": "3",
+      "title": "Machine Learning Model Deployment Using Docker 🐳🤖",
+      "subtitle": "A comprehensive guide to containerizing and deploying machine learning models with Docker",
+      "author": "Vansh Raj Chauhan",
+      "date": "March 24, 2025",
+      "readTime": "12 min read",
+      "coverImage": "/imgs/blog/Ml_Model_Docker.jpeg",
+      "tags": ["Docker", "Machine Learning", "Python", "Streamlit", "DevOps", "Data Science"],
+      "featured": true,
+      "excerpt": "Learn how to containerize and deploy machine learning models using Docker for portable, scalable AI applications.",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": "In this project, we'll deploy a Machine Learning (ML) model using Docker, a powerful platform for containerizing applications. Docker ensures that your ML model is portable, scalable, and independent of the underlying system. This guide will walk you through containerizing an ML model, training it, and deploying it as a Dockerized application."
+        },
+        {
+          "type": "heading",
+          "content": "Prerequisites 📋"
+        },
+        {
+          "type": "paragraph",
+          "content": "Before we begin, ensure you have the following installed:\n\n- Docker: Platform for containerized applications\n- Python: Programming language for ML models\n- Streamlit: Framework for building web interfaces\n- Docker Desktop: For managing containers locally"
+        },
+        {
+          "type": "heading",
+          "content": "Project Structure 🗂️"
+        },
+        {
+          "type": "paragraph",
+          "content": "The project consists of these files:\n\n- app.py: Main Python script with ML model and Streamlit app\n- requirements.txt: Python dependencies\n- Dockerfile: Instructions for Docker to build an image\n- mushrooms.csv: Dataset for training the ML model"
+        },
+        {
+          "type": "heading",
+          "content": "Step 1: Create the ML Model and Streamlit App 🐍"
+        },
+        {
+          "type": "subheading",
+          "content": "Import the ML Model"
+        },
+        {
+          "type": "paragraph",
+          "content": "The app.py script includes data preprocessing, model training, and Streamlit interface for user interaction."
+        },
+        {
+          "type": "subheading",
+          "content": "Create requirements.txt"
+        },
+        {
+          "type": "paragraph",
+          "content": "Generate a requirements file with:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "pip freeze > requirements.txt"
+        },
+        {
+          "type": "heading",
+          "content": "Step 2: Create the Dockerfile 📄"
+        },
+        {
+          "type": "paragraph",
+          "content": "Here's our Dockerfile for the project:"
+        },
+        {
+          "type": "code",
+          "language": "dockerfile",
+          "content": "# Use an official Python runtime as the base image\nFROM python:3.9-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the application files to the working directory\nCOPY app.py /app\nCOPY requirements.txt /app\nCOPY mushrooms.csv /app\n\n# Upgrade pip and install Python dependencies\nRUN python -m pip install --upgrade pip\nRUN pip install -r requirements.txt\n\n# Expose port 8501 for Streamlit\nEXPOSE 8501\n\n# Set the entrypoint command to run the Streamlit app\nENTRYPOINT [\"streamlit\", \"run\", \"app.py\", \"--server.port=8501\", \"--server.address=0.0.0.0\"]"
+        },
+        {
+          "type": "heading",
+          "content": "Step 3: Build the Docker Image 🏗️"
+        },
+        {
+          "type": "paragraph",
+          "content": "Build the image with:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker build -t ml-model ."
+        },
+        {
+          "type": "heading",
+          "content": "Step 4: Verify the Docker Image 🖼️"
+        },
+        {
+          "type": "paragraph",
+          "content": "Check the created image:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker images"
+        },
+        {
+          "type": "paragraph",
+          "content": "Expected output:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "REPOSITORY   TAG       IMAGE ID       CREATED          SIZE\nml-model     latest    abc123def456   10 seconds ago   1.02GB"
+        },
+        {
+          "type": "heading",
+          "content": "Step 5: Run the Docker Container 🚀"
+        },
+        {
+          "type": "paragraph",
+          "content": "Launch your ML application:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker run -p 8501:8501 ml-model"
+        },
+        {
+          "type": "paragraph",
+          "content": "Access your app at: http://localhost:8501"
+        },
+        {
+          "type": "heading",
+          "content": "Step 6: Push to DockerHub 🐋"
+        },
+        {
+          "type": "subheading",
+          "content": "Log in to DockerHub"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker login"
+        },
+        {
+          "type": "subheading",
+          "content": "Tag the Docker Image"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker tag ml-model yourdockerhubusername/ml-model"
+        },
+        {
+          "type": "subheading",
+          "content": "Push the Docker Image"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker push yourdockerhubusername/ml-model"
+        },
+        {
+          "type": "heading",
+          "content": "Conclusion 🎉"
+        },
+        {
+          "type": "paragraph",
+          "content": "Congratulations! You've successfully deployed a Machine Learning model using Docker. This setup ensures your ML model is portable, scalable, and system-independent. Docker and Streamlit together provide a powerful combination for building and deploying AI applications."
+        },
+        {
+          "type": "paragraph",
+          "content": "Happy coding! 💻✨"
+        }
+      ]
+    }
 
   ];
   

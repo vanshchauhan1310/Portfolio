@@ -136,7 +136,7 @@ export default function BlogDetail({ params }: { params: { id: string } }) {
               </div>
               <div>
                 <p className="font-medium">{post.author}</p>
-                <p className="text-sm text-muted-foreground">Web Developer & Technical Writer</p>
+                <p className="text-sm text-muted-foreground">Aspiring Software Developer</p>
               </div>
             </div>
           </div>
