@@ -236,6 +236,189 @@ export interface BlogPost {
     },
 
 
+    {
+      "id": "2",
+      "title": "Deploying a Streamlit App Using Docker 🐳📊",
+      "subtitle": "A step-by-step guide to containerizing and deploying interactive Streamlit applications",
+      "author": "Vansh Raj Chauhan",
+      "date": "June 15, 2023",
+      "readTime": "10 min read",
+      "coverImage": "/imgs/blog/Streamlit_Docker.jpeg",
+      "tags": ["Docker", "Streamlit", "Python", "Data Visualization", "DevOps"],
+      "featured": true,
+      "excerpt": "Learn how to containerize and deploy interactive Streamlit applications using Docker for portable, scalable data science projects.",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": "In this guide, we'll walk through containerizing a Streamlit application using Docker. Streamlit is a powerful framework for building interactive web apps for machine learning and data science, while Docker provides containerization to make these applications portable and system-independent."
+        },
+        {
+          "type": "heading",
+          "content": "Prerequisites 📋"
+        },
+        {
+          "type": "paragraph",
+          "content": "Before we begin, ensure you have the following installed:\n\n- Docker: Platform for containerized applications\n- Python: Programming language for Streamlit apps\n- Streamlit: Framework for building web apps\n- Docker Desktop: For managing containers locally"
+        },
+        {
+          "type": "heading",
+          "content": "Step 1: Install Required Software 🛠️"
+        },
+        {
+          "type": "subheading",
+          "content": "Install Streamlit"
+        },
+        {
+          "type": "paragraph",
+          "content": "Run this command in your terminal:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "pip install streamlit"
+        },
+        {
+          "type": "subheading",
+          "content": "Install Docker Desktop"
+        },
+        {
+          "type": "paragraph",
+          "content": "Download and install Docker Desktop from the official Docker website and ensure it's running."
+        },
+        {
+          "type": "heading",
+          "content": "Step 2: Verify Installations ✅"
+        },
+        {
+          "type": "subheading",
+          "content": "Check Docker Version"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker --version"
+        },
+        {
+          "type": "paragraph",
+          "content": "Expected output:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "Docker version 20.10.17, build 100c701"
+        },
+        {
+          "type": "subheading",
+          "content": "Check Python Version"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "python --version"
+        },
+        {
+          "type": "paragraph",
+          "content": "Expected output:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "Python 3.9.7"
+        },
+        {
+          "type": "heading",
+          "content": "Step 3: Create the Streamlit Application 🐍"
+        },
+        {
+          "type": "paragraph",
+          "content": "Create a file named streamlit_app.py with this interactive spiral visualization code:"
+        },
+        {
+          "type": "code",
+          "language": "python",
+          "content": "from collections import namedtuple\nimport altair as alt\nimport math\nimport pandas as pd\nimport streamlit as st\n\n\"\"\"\n# Welcome to Streamlit! 🎉\n\nEdit `/streamlit_app.py` to customize this app!\n\"\"\"\n\nwith st.echo(code_location='below'):\n   total_points = st.slider(\"Number of points in spiral\", 1, 5000, 2000)\n   num_turns = st.slider(\"Number of turns in spiral\", 1, 100, 9)\n\n   Point = namedtuple('Point', 'x y')\n   data = []\n\n   points_per_turn = total_points / num_turns\n\n   for curr_point_num in range(total_points):\n      curr_turn, i = divmod(curr_point_num, points_per_turn)\n      angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn\n      radius = curr_point_num / total_points\n      x = radius * math.cos(angle)\n      y = radius * math.sin(angle)\n      data.append(Point(x, y))\n\n   st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)\n      .mark_circle(color='#0068c9', opacity=0.5)\n      .encode(x='x:Q', y='y:Q'))"
+        },
+        {
+          "type": "heading",
+          "content": "Step 4: Create the Dockerfile 📄"
+        },
+        {
+          "type": "paragraph",
+          "content": "Create a Dockerfile with these instructions:"
+        },
+        {
+          "type": "code",
+          "language": "dockerfile",
+          "content": "# Use official Python runtime\nFROM python:3.9-slim\n\n# Set working directory\nWORKDIR /app\n\n# Install system dependencies\nRUN apt-get update && apt-get install -y \\\n    build-essential \\\n    curl \\\n    software-properties-common \\\n    git \\\n    && rm -rf /var/lib/apt/lists/*\n\n# Clone example repository\nRUN git clone https://github.com/streamlit/streamlit-example.git .\n\n# Install Python dependencies\nRUN pip3 install -r requirements.txt\n\n# Expose port 8501\nEXPOSE 8501\n\n# Health check\nHEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health\n\n# Run Streamlit\nENTRYPOINT [\"streamlit\", \"run\", \"streamlit_app.py\", \"--server.port=8501\", \"--server.address=0.0.0.0\"]"
+        },
+        {
+          "type": "heading",
+          "content": "Step 5: Build the Docker Image 🏗️"
+        },
+        {
+          "type": "paragraph",
+          "content": "Build the image with this command:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker build -t streamlit_app ."
+        },
+        {
+          "type": "heading",
+          "content": "Step 6: Verify the Docker Image 🖼️"
+        },
+        {
+          "type": "paragraph",
+          "content": "Check the created image:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker images"
+        },
+        {
+          "type": "paragraph",
+          "content": "Expected output:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "REPOSITORY      TAG       IMAGE ID       CREATED          SIZE\nstreamlit_app   latest    abc123def456   10 seconds ago   1.02GB"
+        },
+        {
+          "type": "heading",
+          "content": "Step 7: Run the Docker Container 🚀"
+        },
+        {
+          "type": "paragraph",
+          "content": "Launch your Streamlit app:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker run -p 8501:8501 streamlit_app"
+        },
+        {
+          "type": "paragraph",
+          "content": "Access your app at: http://localhost:8501"
+        },
+        {
+          "type": "heading",
+          "content": "Conclusion 🎉"
+        },
+        {
+          "type": "paragraph",
+          "content": "Congratulations! You've successfully deployed a Streamlit application using Docker. This powerful combination enables you to build and share interactive data applications that are portable and scalable."
+        },
+        {
+          "type": "paragraph",
+          "content": "Happy coding! 💻✨"
+        }
+      ]
+    }
+
+
   ];
   
   export default blogPosts;
