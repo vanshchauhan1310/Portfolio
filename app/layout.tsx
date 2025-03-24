@@ -23,7 +23,6 @@ export const metadata: Metadata = {
     "Software Engineer",
     "Web Applications",
     "Performance Optimization",
-    "Aga Kadela",
   ],
   authors: [{ name: "Vansh Raj Chauhan" }],
   creator: "Vansh Raj Chauhan",

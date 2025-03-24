@@ -1,21 +1,27 @@
-import LoadingScreen from "@/components/loading-screen";
-import AboutSection from "@/components/sections/about";
-import ContactSection from "@/components/sections/contact";
-import HomeSection from "@/components/sections/home";
-import ProjectsSection from "@/components/sections/projects";
-import Technologies from "@/components/sections/technologies";
+"use client";
+
+import Index from "@/pages/Index";
+import Blog from "@/app/(main)/blog/page";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Link from "next/link";
 
 export default function Home() {
+  // Create a new QueryClient instance for each request in client components
+  const queryClient = new QueryClient();
+  
   return (
-    <>
-      {/* loading screen */}
-      <LoadingScreen />
-      {/* page sections */}
-      <HomeSection />
-      <AboutSection />
-      <ProjectsSection />
-      <Technologies />
-      <ContactSection />
-    </>
+    <QueryClientProvider client={queryClient}>
+      {/* <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Blog/>} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogDetail id={""} />} />
+        </Routes>
+      </BrowserRouter> */}
+        <Link href="/"><Index/></Link>
+        <Link href="/blog">Blog</Link>
+        
+    </QueryClientProvider>
   );
 }
