@@ -6,6 +6,7 @@ import useCurSection from "@/hooks/use-cur-section";
 import data from "@/data";
 import BlogCard from "@/app/(main)/blog/blog-card";
 import Link from "next/link";
+import { BlogPost } from "@/data/blog";
 
 
 export default function BlogPreviewSection() {
@@ -35,7 +36,7 @@ export default function BlogPreviewSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2, duration: 0.5 }}
           >
-            <BlogCard post={post} />
+           <BlogCard post={post as BlogPost} />
           </motion.div>
         
         ))}
