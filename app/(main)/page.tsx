@@ -3,7 +3,6 @@
 import Index from "@/pages/Index";
 import Blog from "@/app/(main)/blog/page";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Link from "next/link";
 
 export default function Home() {
