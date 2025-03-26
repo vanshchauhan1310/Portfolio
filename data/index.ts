@@ -56,6 +56,39 @@ const data = {
         githubLink: "https://github.com/vanshchauhan1310/Thief-Detection-Alaram",
       },
      
+      {
+        id: 4,
+        category: "Web-app",
+        title: "Deploying a Streamlit App Using Docker",
+        description:
+          "This project demonstrates how to containerize a Streamlit web application using Docker for easy deployment and scalability. Streamlit is a powerful Python framework for building interactive data applications, while Docker ensures consistent execution across different environments.",
+        image: "/imgs/Steamlit_Application.png",
+        previewLink: "https://app-docker-zruo9bdrzeybd9ihmxwdvx.streamlit.app/",
+        githubLink: "https://github.com/vanshchauhan1310/Streamlit-Docker",
+      },
+
+      {
+        id: 5,
+        category: "Web-app",
+        title: "Machine Learning Model Deployment Using Docker ",
+        description:
+          "This project demonstrates how to containerize a machine learning (ML) model using Docker for seamless deployment and scalability",
+        image: "/imgs/Ml_Model.png",
+        previewLink: "https://appmlmodeldocker-bc2xdfrd9qzua9ct7r44mv.streamlit.app/",
+        githubLink: "https://github.com/vanshchauhan1310/Streamlit_Ml_Model_Docker",
+      },
+
+      {
+        id: 6,
+        category: "Web-app",
+        title: "ML Monitoring Dashboard with Evidently and Streamlit",
+        description:
+          "This project builds an interactive monitoring dashboard to track machine learning model performance, data quality, and drift over time. It leverages:",
+        image: "/imgs/Evidently.png",
+        previewLink: "",
+        githubLink: "https://github.com/vanshchauhan1310/Streamlit_EvidentlyAI",
+      },
+
     ],
   },
   technologies: {

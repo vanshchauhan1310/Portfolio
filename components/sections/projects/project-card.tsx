@@ -1,11 +1,9 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Globe } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
-type props = {
+type Props = {
   project: {
     category: string;
     id: number;
@@ -17,7 +15,11 @@ type props = {
   };
 };
 
-export default function ProjectCard({ project }: props) {
+export default function ProjectCard({ project }: Props) {
+  const handleExternalLink = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="w-full max-w-[650px] rounded-2xl bg-muted border sticky top-8">
       <div className="flex justify-between flex-shrink-0 px-4 pt-2">
@@ -39,10 +41,9 @@ export default function ProjectCard({ project }: props) {
           width={400}
           height={400}
         />
-        <Link
-          href={project.previewLink}
-          target="_blank"
-          className="size-full bg-black/50 absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity"
+        <div 
+          onClick={() => handleExternalLink(project.previewLink)}
+          className="size-full bg-black/50 absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
         />
         <ExternalLink
           size={24}
@@ -55,16 +56,19 @@ export default function ProjectCard({ project }: props) {
           {project.description}
         </p>
         <div className="space-x-2 my-7">
-          <Button asChild variant="secondary">
-            <Link href={project.previewLink} target="_blank">
-              Live view
-            </Link>
+          <Button 
+            onClick={() => handleExternalLink(project.previewLink)}
+            variant="secondary"
+          >
+            Live view
           </Button>
           {project.githubLink && (
-            <Button asChild variant="ghost" className="bg-muted-foreground/10">
-              <Link href={project.githubLink} target="_blank">
-                GitHub
-              </Link>
+            <Button 
+              onClick={() => handleExternalLink(project.githubLink)}
+              variant="ghost" 
+              className="bg-muted-foreground/10"
+            >
+              GitHub
             </Button>
           )}
         </div>
