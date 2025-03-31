@@ -922,6 +922,116 @@ export interface BlogPost {
           "content": "Happy networking! 💻✨"
         }
       ]
+    },
+
+    {
+      "id": "6",
+      "title": "FastAPI Continuous Delivery with Docker and GitHub Actions",
+      "subtitle": "Automate deployment of Dockerized FastAPI applications using GitHub Actions",
+      "author": "Vansh Raj Chauhan",
+      "date": "March 31, 2025",
+      "readTime": "6 min read",
+      "coverImage": "/imgs/blog/Fastapi-cd.jpeg",
+      "tags": ["FastAPI", "Docker", "GitHub Actions", "CI/CD", "DevOps"],
+      "featured": true,
+      "excerpt": "Learn how to set up continuous delivery for a FastAPI application using Docker and GitHub Actions.",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": "This guide demonstrates setting up Continuous Delivery for a Dockerized FastAPI application using GitHub Actions."
+        },
+        {
+          "type": "heading",
+          "content": "Repository Structure"
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "content": "fastapi-cd-demo/\n├── .github/\n│   └── workflows/\n│       └── DockerBuild.yml\n├── Dockerfile\n├── main.py\n├── requirements.txt\n└── README.md"
+        },
+        {
+          "type": "heading",
+          "content": "1. FastAPI Server (main.py)"
+        },
+        {
+          "type": "code",
+          "language": "python",
+          "content": "from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/\")\ndef read_root():\n    return {\"message\": \"Welcome to FastAPI CD Demo\"}\n\n@app.get(\"/items/{item_id}\")\ndef read_item(item_id: int, q: str = None):\n    return {\"item_id\": item_id, \"q\": q}"
+        },
+        {
+          "type": "heading",
+          "content": "2. Dependencies (requirements.txt)"
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "content": "fastapi==0.95.2\nuvicorn==0.22.0"
+        },
+        {
+          "type": "heading",
+          "content": "3. Dockerfile"
+        },
+        {
+          "type": "code",
+          "language": "dockerfile",
+          "content": "# Base image\nFROM ubuntu:22.04\n\n# Install dependencies\nRUN apt-get update && \\\n    apt-get install -y python3 python3-pip && \\\n    rm -rf /var/lib/apt/lists/*\n\n# Set working directory\nWORKDIR /app\n\n# Copy requirements and install\nCOPY requirements.txt .\nRUN pip3 install --no-cache-dir -r requirements.txt\n\n# Copy application code\nCOPY main.py .\n\n# Expose port\nEXPOSE 8000\n\n# Run the application\nCMD [\"uvicorn\", \"main:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]"
+        },
+        {
+          "type": "heading",
+          "content": "4. GitHub Actions Workflow"
+        },
+        {
+          "type": "code",
+          "language": "yaml",
+          "content": "name: Docker Build and Push\n\non:\n  push:\n    branches: [ \"main\" ]\n\nenv:\n  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}\n  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}\n  IMAGE_NAME: fastapi-cd-demo\n\njobs:\n  build-and-push:\n    runs-on: ubuntu-latest\n    \n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v3\n        \n      - name: Log in to Docker Hub\n        uses: docker/login-action@v2\n        with:\n          username: ${{ secrets.DOCKERHUB_USERNAME }}\n          password: ${{ secrets.DOCKERHUB_TOKEN }}\n          \n      - name: Set up Docker Buildx\n        uses: docker/setup-buildx-action@v2\n        \n      - name: Build and push\n        uses: docker/build-push-action@v4\n        with:\n          context: .\n          push: true\n          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest"
+        },
+        {
+          "type": "heading",
+          "content": "5. Setup Instructions"
+        },
+        {
+          "type": "subheading",
+          "content": "Local Development"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "git clone https://github.com/vanshchauhan1310/Fastapi-GithubAction \npip install -r requirements.txt\nuvicorn main:app --reload"
+        },
+        {
+          "type": "subheading",
+          "content": "Docker Setup"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "content": "docker build -t fastapi-cd-demo .\ndocker run -d -p 8000:8000 fastapi-cd-demo"
+        },
+        {
+          "type": "subheading",
+          "content": "GitHub Actions Configuration"
+        },
+        {
+          "type": "paragraph",
+          "content": "Add these secrets to your GitHub repository (Settings > Secrets > Actions):\n- DOCKERHUB_USERNAME: Your Docker Hub username\n- DOCKERHUB_TOKEN: Your Docker Hub personal access token"
+        },
+        {
+          "type": "heading",
+          "content": "Accessing the Application"
+        },
+        {
+          "type": "paragraph",
+          "content": "Endpoints:\n- / - Welcome message\n- /items/{item_id} - Example endpoint with parameters"
+        },
+        {
+          "type": "heading",
+          "content": "Conclusion"
+        },
+        {
+          "type": "paragraph",
+          "content": "You've now set up a complete Continuous Delivery pipeline for a FastAPI application using Docker and GitHub Actions. This setup automatically builds and deploys your application whenever changes are pushed to the main branch."
+        }
+      ]
     }
 
   ];
