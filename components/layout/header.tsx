@@ -8,7 +8,7 @@ const navItems = [
   {
     id: 1,
     name: "Home.tsx",
-    path: "/",
+    path: "/#home",
     icon: Home,
   },
   {

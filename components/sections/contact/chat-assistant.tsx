@@ -71,6 +71,7 @@ export default function ChatAssistant() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [confirmClear, setConfirmClear] = useState<ConfirmClearState>({
     show: false,
   });
@@ -86,6 +87,22 @@ export default function ChatAssistant() {
       );
     }
   }, [remainingMessages]);
+
+  const focusInput = useCallback(() => {
+    if (inputRef.current && !isTyping) {
+      inputRef.current.focus();
+    }
+  }, [isTyping]);
+
+  useEffect(() => {
+    focusInput();
+  }, [focusInput, isTyping]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      focusInput();
+    }
+  }, [messages.length, focusInput]);
 
   const debouncedApiCall = useCallback((chatMessages: ChatMessage[]) => {
     const apiCall = async () => {
@@ -138,7 +155,8 @@ export default function ChatAssistant() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    const trimmedInput = input.trim();
+    if (!trimmedInput) return;
     if (isTyping) return;
 
     if (remainingMessages <= 0) {
@@ -151,6 +169,7 @@ export default function ChatAssistant() {
           timestamp: new Date(),
         },
       ]);
+      focusInput();
       return;
     }
 
@@ -164,12 +183,13 @@ export default function ChatAssistant() {
           timestamp: new Date(),
         },
       ]);
+      focusInput();
       return;
     }
 
     const userMessage: Message = {
       role: "user",
-      content: input.trim(),
+      content: trimmedInput,
       timestamp: new Date(),
     };
 
@@ -185,13 +205,24 @@ export default function ChatAssistant() {
       })
     );
 
-    debouncedApiCall(chatMessages);
+    try {
+      await debouncedApiCall(chatMessages);
+    } catch (error) {
+      console.error("Error in handleSubmit:", error);
+      setIsTyping(false);
+      focusInput();
+    }
   };
 
   const handleQuickOptionClick = (option: QuickOption) => {
     if (isTyping || remainingMessages <= 0) return;
     setInput(option.message);
-    handleSubmit(new Event("submit") as any);
+    const event = new Event("submit", { cancelable: true });
+    const form = document.querySelector("form");
+    if (form) {
+      form.dispatchEvent(event);
+    }
+    setTimeout(focusInput, 0);
   };
 
   const handleClearClick = () => {
@@ -321,9 +352,14 @@ export default function ChatAssistant() {
                   {QUICK_OPTIONS.map((option) => (
                     <motion.button
                       key={option.text}
+                      type="button"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => handleQuickOptionClick(option)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleQuickOptionClick(option);
+                      }}
                       className="text-left px-3 py-2 rounded-md bg-background/50 hover:bg-background/80 transition-colors text-sm"
                       disabled={isTyping || remainingMessages <= 0}
                     >
@@ -353,8 +389,10 @@ export default function ChatAssistant() {
       <div className="border-t p-4 ">
         <form onSubmit={handleSubmit} className="flex gap-2">
           <input
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onBlur={focusInput}
             placeholder="Ask me anything..."
             className="flex-1 bg-background rounded-lg px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-primary/50"
             disabled={isTyping}
@@ -362,7 +400,13 @@ export default function ChatAssistant() {
           <button
             type="submit"
             disabled={isTyping || !input.trim()}
-            className="p-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+            onClick={(e) => {
+              e.preventDefault();
+              if (!isTyping && input.trim()) {
+                handleSubmit(e);
+              }
+            }}
           >
             <Send size={20} />
           </button>
